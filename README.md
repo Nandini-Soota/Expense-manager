@@ -1,137 +1,87 @@
-# Expense-Manager
-#Import module for reading and writing CSV files
-import csv
-# Import module to interact with operating system (used to check if file exists)
-import os
-# Import the plotting library for creating charts
-import matplotlib.pyplot as plt
-# Import datetime module for getting the current date
-from datetime import datetime
+Expense Manager
 
-# File where all expenses will be stored
-DATA_FILE = "expenses.csv"
-
-# Check if the expenses CSV file exists; if not, create it
-if not os.path.exists(DATA_FILE):
-   # Open the file in write mode and create a new CSV
-    with open(DATA_FILE, "w", newline="") as f:
-        writer = csv.writer(f) 
-        writer.writerow(["date", "category", "amount", "note"]) 
-        
-# Adds a single expense entry to the CSV file.
-def add_expense(category, amount, note=""):
+  Overview:
+  
+    Expense Manager is a simple Python application that
+    helps users record, view, and visualize their personal
+    spending. The system supports adding expenses with
+    categories and notes, viewing all recorded transactions,
+    and generating graphical summaries for easier analysis.
+    It features a menu-driven interface and stores data in a
+    local CSV file for easy tracking and portability.
     
-   # Get today's date in YYYY-MM-DD format
-    date = datetime.now().strftime("%Y-%m-%d")
-
-   # Open the CSV file in append mode to add a new row
-    with open(DATA_FILE, "a", newline="") as f:
-        writer = csv.writer(f)  # Create CSV writer
-        writer.writerow([date, category, amount, note])  
-
-   # Notify the user
-    print("Expense added successfully!")
-
-# Reads and prints all expenses from the CSV file.
-def view_expenses():
-
-# Print heading
-    print("--- Expense List ---")
-
-  # Open the CSV file in read mode
-    with open(DATA_FILE, "r") as f:
-        reader = csv.reader(f) 
-        next(reader)  
-
-   # Loop through each row and print details
-        for row in reader:
-            print(f"Date: {row[0]}, Category: {row[1]}, Amount: ₹{row[2]}, Note: {row[3]}")
-
-# Print extra line
-    print()  
-
-# Reads expenses and displays a bar chart showing total amount per category.
-def plot_expenses():
-
-  # Dictionary to accumulate totals for each category
-    categories = {}
-
-  # Read the CSV file
-    with open(DATA_FILE, "r") as f:
-        reader = csv.reader(f) 
-        next(reader) 
-
-   # Loop through each row (date, category, amount, note)
-        for date, category, amount, note in reader:
-            categories[category] = categories.get(category, 0) + float(amount)
-
-  # If there are no expenses recorded yet
-    if not categories:
-        print("No expenses to plot. Add some first!")
-        return
-
-  # Extract category names and their total values
-    names = list(categories.keys())
-    values = list(categories.values())
-
- # Create and display a bar chart
-    plt.figure(figsize=(7, 5))  
-    plt.bar(names, values)  
-    plt.title("Expenses by Category") 
-    plt.xlabel("Category") 
-    plt.ylabel("Total Amount (₹)") 
-    plt.tight_layout()  
-    plt.show()
-
- # Create and display apie chart
-    plt.figure(figsize=(7, 7)) 
-    plt.pie(values, labels=names, autopct='%1.1f%%', startangle=90)
-    plt.title("Expenses by Category (Pie Chart)")
-    plt.tight_layout() 
-    plt.show()
-
-# Displays menu and handles user input for the program.
-def main():
-   
-
-# Display the menu
-    while True:
-        print("Expense Manager")
-        print("1. Add Expense")
-        print("2. View Expenses")
-        print("3. Plot Expenses")
-        print("4. Exit")
-
-  # Read user choice
-        choice = input("Enter choice: ")
-
-        if choice == "1":
-  # Ask user for required expense details
-            category = input("Category: ")
-            amount = float(input("Amount: ₹"))  
-            note = input("Note (optional): ")
-
-   # Call the function to store the expense
-            add_expense(category, amount, note)
-
- # Display stored expenses
-        elif choice == "2":
-            view_expenses()
-            
-# Generate and show expense chart
-        elif choice == "3":
-            plot_expenses()
-            
-  # Exit the program
-        elif choice == "4":
-            print("Goodbye!")
-            break
-
-  # Handle invalid input
-        else:
-            print("Invalid choice. Try again.")
-
-
-# This ensures that main() runs only if the script is executed directly
-if __name__ == "__main__":
-    main()
+  Features:
+  
+    • Add Expenses: Quickly log spending with amount,
+    category, and optional notes.
+    
+    • View Expenses: See a clear, formatted list of all
+    your transactions.
+    
+    • Visualize Expenses: Generate bar and pie charts to
+    understand your spending habits by category.
+    
+    • Persistent Storage: All data is safely stored in a
+    local CSV file, enabling easy retrieval and analysis.
+    
+    • User-Friendly Interface: Simple command-line
+    menu for easy navigation.
+    
+    • Error Handling: Notifies users of invalid input and
+    missing data gracefully.
+    
+  Technologies Used:
+  
+    • Python 3.x
+    
+    • csv (for reading/writing expense data)
+    
+    • matplotlib (for charting and data visualization)
+    
+    • os (for file management)
+    
+    • datetime (for recording expense dates)
+    
+  Installation & Setup:
+  
+    1. Clone this repository to your local machine:
+    
+      ➔ git clone <repo-url>
+      
+    2. Ensure you have Python 3.x installed
+       and matplotlib library available. You can install
+       matplotlib using:
+       
+      ➔ pip install matplotlib
+      
+    3. Run the program from your command line:
+    
+      ➔ python expense-manager.py
+      
+  Usage Instructions:
+  
+    • Add Expense: Choose option 1 in the menu and
+    enter the required details.
+    
+    • View Expenses: Select option 2 to display all your
+    recorded transactions.
+    
+    • Plot Expenses: Select option 3 to visualize your
+    expenses by category.
+    
+    • Exit: Choose option 4 when finished.
+    
+  Testing:
+  
+    The system is interactive. Add, view, and plot expenses
+    to see the program functionalities.
+    Edge cases like missing amounts, invalid inputs, or
+    empty data will be handled with meaningful prompts.
+    
+  Project Structure:
+  
+    expense-manager/
+    |
+    ├ expense-manager.py
+    ├ expenses.csv # Auto-created if not present
+    ├ README.md
